@@ -76,6 +76,23 @@ void array_2d_stuff(int dx, int dy)
      */
     return se_scope_return(backbone[x][y]);
 }
+
+int main()
+{
+    int value = array_2d_stuff(4, 5);
+    printf("Got %d\n", value);
+    return 0;
+}
+```
+
+_Output:_
+
+```
+36753
+56291
+27093
+60626
+Got 3
 ```
 
 TODO
