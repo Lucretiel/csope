@@ -13,6 +13,10 @@ Summary
 `se_scope_begin`
 - Alternatively, call `return se_scope_return(value)` to get a value and then
 clean.
+- Once a scope is created, use the registration functions (see below) to
+create various cleanup actions. These are called in reverse order that they
+are created. Currently supported cleanup actions include freeing memory, calling
+functions, and closing linux file descriptors.
 
 ### Setting memory to be cleaned
 
@@ -102,3 +106,4 @@ TODO
 - Move linux-specific stuff (close, etc) to a separate header, or check a macro
 to only compile on linux.
 - Equivelent helpers for opening files
+- Add a `void(*)()` (function with no arguments) as a cleanup action.
