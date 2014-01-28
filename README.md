@@ -107,3 +107,4 @@ TODO
 to only compile on linux.
 - Equivelent helpers for opening files
 - Add a `void(*)()` (function with no arguments) as a cleanup action.
+- Add subsystem for automatic management of struct fields (destruct struct -> destruct field -> free field -> free struct)
