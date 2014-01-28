@@ -8,9 +8,9 @@ Summary
 
 ### Overview
 
-- Call se_scope_begin() to create a new scope
-- Call se_scope_end() to clean all the relevant data since the call to
-se_scope_begin
+- Call `se_scope_begin()` to create a new scope
+- Call `se_scope_end()` to clean all the relevant data since the call to
+`se_scope_begin`
 - Alternatively, call `return se_scope_return(value)` to get a value and then
 clean.
 
@@ -32,51 +32,51 @@ descriptor is `close`d after this function is called.
 - `se_malloc(size)` allocates some memory and marks it to be `free`d
 - `se_make(type)` allocates some memory for a type, zero-initializes it, and
 marks it to be `free`d
-- `se_new(type, destructor` allocates some memory for a type, zero initializes
+- `se_new(type, destructor)` allocates some memory for a type, zero initializes
 it, registers a destructor function to be called at scope end, and marks it to
 be `free`d after the destructor is called.
 
 Example
 -------
 
-    #include <stdio.h>
-    #include "csope.h"
-    
-    void array_2d_stuff(int dx, int dy)
+```C
+#include <stdio.h>
+#include "csope.h"
+
+void array_2d_stuff(int dx, int dy)
+{
+    /*create a new scope*/
+	se_scope_begin();
+	
+	/*allocate a pointer, and mark it to be free'd at the end*/
+    int** backbone = se_free(malloc(dx * sizeof(int*)));
+    for(int x = 0; x < dx; ++x)
     {
-        /*create a new scope*/
-    	se_scope_begin();
-    	
-    	/*allocate a pointer, and mark it to be free'd at the end*/
-        int** backbone = se_free(malloc(dx * sizeof(int*)));
-        for(int x = 0; x < dx; ++x)
+        /*se_malloc is a convenience macro for se_free(malloc(...))*/
+        backbone[x] = se_malloc(dy * sizeof(int));
+        for(int y = 0; y < dy; ++y)
         {
-            /*se_malloc is a convenience macro for se_free(malloc(...))
-            backbone[x] = se_malloc(dy * sizeof(int));
-            for(int y = 0; y < dy; ++y)
-            {
-                backbone[x][y] = rand() % 10;
-            }
+            backbone[x][y] = rand() % 10;
         }
-        
-        for(int x = 0; x < dx; ++x)
-        {
-            for(int y = 0; y < dy; ++y)
-            {
-                printf("%d", backbone[x][y]);
-            }
-            printf("\n");
-        }
-        
-        /*
-         * call se_scope_return (with return value) or se_scope_end (no return
-         * value) to end the scope, freeing any memory and calling any
-         * registered destructors.
-         */
-        return se_scope_return(backbone[x][y]);
     }
     
-    int 
+    for(int x = 0; x < dx; ++x)
+    {
+        for(int y = 0; y < dy; ++y)
+        {
+            printf("%d", backbone[x][y]);
+        }
+        printf("\n");
+    }
+    
+    /*
+     * call se_scope_return (with return value) or se_scope_end (no return
+     * value) to end the scope, freeing any memory and calling any
+     * registered destructors.
+     */
+    return se_scope_return(backbone[x][y]);
+}
+```
 
 TODO
 ----
