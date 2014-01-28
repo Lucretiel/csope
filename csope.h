@@ -56,5 +56,5 @@ void se_scope_end();
 #define se_make(TYPE) (TYPE*)se_free(calloc(1, sizeof(TYPE)))
 
 /* Allocate for type, assign destructor */
-#define se_make_destruct(TYPE, DESTRUCTOR) (TYPE*)se_free_delete( \
+#define se_new(TYPE, DESTRUCTOR) (TYPE*)se_free_delete( \
 		calloc(1, sizeof(TYPE)), (DESTRUCTOR))
